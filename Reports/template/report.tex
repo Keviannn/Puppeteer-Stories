@@ -1,0 +1,98 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+%NOTE: This report format is 
+\setlength{\footskip}{1.5cm}
+
+\newcommand{\reporttitle}{Fundamentos de Videojuegos}
+\newcommand{\reportauthorOne}{Jose Luis Prado Sierra }
+\newcommand{\cidOne}{220070}
+\newcommand{\reportauthorTwo}{Juan Francisco Aranda Rodríguez }
+\newcommand{\cidTwo}{240259}
+\newcommand{\reportauthorThree}{Javier Sánchez Valentín }
+\newcommand{\cidThree}{240167}
+\newcommand{\reportauthorFour}{David Sobrino Rodríguez }
+\newcommand{\cidFour}{240022}
+\newcommand{\reportauthorFive}{David Sierra Lanaquera }
+\newcommand{\cidFive}{240248}
+\newcommand{\reportauthorSix}{Fernando Santana Riñón}
+\newcommand{\cidSix}{240251}
+\newcommand{\reporttype}{Coursework}
+
+% include files that load packages and define macros
+\input{../includes/includes} % various packages needed for maths etc.
+\input{../includes/notation} % short-hand notation and macros
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\raggedbottom
+\begin{document}
+% front page
+\input{titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% table of content
+%If a table of content is needed, simply uncomment the following lines
+%\tableofcontents
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Main document
+
+\section{Escenas}
+
+\begin{itemize}
+    \item MainScene es la única escena del juego, con todos los elementos sobre ella.
+    \item Elementos de la escena:
+        \begin{itemize}
+            \item Cámara ortográfica con el MeteorSpawn.
+            \item Fondo espacial.
+            \item Ship: nave con Rigidbody, scripts de control y disparo.
+            \item Canvas para mostrar la puntuación junto con el menú y el botón de pausa.
+        \end{itemize}
+\end{itemize}
+
+%---------------------------------------------------------------------
+\section{Assets y GameObjects}
+
+\begin{itemize}
+    \item \textbf{Sprites} (\texttt{Assets/Sprites/}): \texttt{Ship.png}, \texttt{Meteor.png}, \texttt{Bullet.png}, \texttt{PausaBoton.png} y \texttt{Space.jpg}.
+    \item \textbf{Prefabs} (\texttt{Assets/Prefabs/}): \texttt{Meteor\_0} que es el asteroide grande que contiene el script \texttt{Meteor.cs}, \texttt{Meteor\_1} que son los mini-asteroides que se generan al destruir los grande y \texttt{Bullet\_0} que son las balas de la pool
+\end{itemize}
+
+%---------------------------------------------------------------------
+\section{Mecánicas}
+
+\begin{itemize}
+    \item \textbf{Moverse}: la nave es capaz de moverse y rotar. El movimiento hacia delante y hacia atrás es mediante el uso de fuerza y la rotación es mediante la modificación del componente transform.
+    \item \textbf{Dispar}: la nave es capaz de disparar balas capaces de destruir asteroides.
+    \item \textbf{Aparición de Asteroides}: se van generando asteroides que hay que destruir para ganar puntuación, al ser alcanzados por una bala, los grandes se dividen en 2 mini-asteroides que salen en dirección tangente al punto de impacto mientras que los pequeños se destruyen normalmente.
+    \item \textbf{Puntuación}: se suma +1 punto por asteroide destruido y la UI muestra en pantalla los punto acumulados.
+    \item \textbf{Colisiones}: cuando una bala choca con un asteroide se divide en dos mini-asteroides y suma un punto y cuando un asteroide choca con la nave la destruye y se reinicia la escena.
+    \item \textbf{Dificultad progresiva}: \texttt{MeteorSpawn} aumenta la velocidad de aparición en cada nueva generación.
+    \item \textbf{Mundo infinito}: al salir por uno de los bordes de la escena, la nave reaparece por el lado opuesto.
+    \item \textbf{Pausa}: detiene la simulación con mostrand el menú de pausa. Se accede mediante la tecla \texttt{Escape} o el botón de pausa de la UI.
+\end{itemize}
+
+%---------------------------------------------------------------------
+\section{Scripts}
+
+\begin{itemize}
+    \item \texttt{Player.cs}: se encarga del control de la nave, la teletransportación en los bordes, el disparo y la puntuación.
+    \item \texttt{MeteorSpawn.cs}: instancia asteroides en la parte superior con una posición X aleatoria y con velocidad de aparición creciente.
+    \item \texttt{Meteor.cs}: al ser impactado por una bala, el asteroide grande se divide en 2 mini-asteroides y se destruye, los minis se destruyen directamente.
+    \item \texttt{Bullet.cs}: es el proyectil disparado por el jugador.
+    \item \texttt{BulletPool.cs}: realiza el object pooling de 30 balas. 
+    \item \texttt{Pause.cs}: pausa del juego y gestoina el menú de pausa.
+\end{itemize}
+
+%---------------------------------------------------------------------
+\section{Interacción}
+
+\begin{itemize}
+    \item \textbf{Controles}: las flechas \texttt{↑/↓} (o \texttt{W/S}) sirven para acelerar y frenar, \texttt{←/→} (o \texttt{A/D}) para girar, \texttt{Espacio} para disparar y \texttt{Escape} para pausar/reanudar.
+    \item \textbf{UI}: mostrar el botón y el menú de pausa junto con la  puntuación en pantalla.
+\end{itemize}
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
