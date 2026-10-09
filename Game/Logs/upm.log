@@ -1,0 +1,41 @@
+[2026-10-09T14:11:07.930Z][INFO] Command-line: /home/main/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Resources/PackageManager/Server/UnityPackageManager server -s 22910 --ipc-path /tmp/Unity-Upm-22910.sock -l 2 --log-file /home/main/github/Proyecto/Puppeteer-Stories/Game/Logs/upm.log
+[2026-10-09T14:11:07.941Z][INFO] IPC server started (IPC path=/tmp/Unity-Upm-22910.sock).
+[2026-10-09T14:11:07.941Z][INFO] Hint: To connect to this UPM instance, launch Unity with the command-line parameter -upmIpcPath Upm-22910.
+[2026-10-09T14:11:09.010Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-10-09T14:11:09.025Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-10-09T14:11:09.141Z][INFO] project:list-packages --> 200 (132 ms)
+[2026-10-09T14:11:10.006Z][INFO] project:list-packages --> 200 (981 ms)
+[2026-10-09T14:11:10.209Z][INFO] config:project:get-registries <-- Request received
+params: {}
+[2026-10-09T14:11:10.212Z][INFO] config:project:get-registries --> 200 (3 ms)
+[2026-10-09T14:11:10.230Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-10-09T14:11:10.284Z][INFO] project:resolve-packages <-- Request received
+params: {}
+[2026-10-09T14:11:10.295Z][INFO] project:list-packages --> 200 (66 ms)
+[2026-10-09T14:11:10.363Z][WARN] Requested version [4.9.3] for package [com.unity.searcher] overridden by minimum version [4.9.5].
+[2026-10-09T14:11:10.364Z][INFO] project:resolve-packages --> 200 (80 ms)
+[2026-10-09T14:11:29.285Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-10-09T14:11:29.330Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-10-09T14:11:29.360Z][INFO] project:list-packages --> 200 (76 ms)
+[2026-10-09T14:11:29.400Z][INFO] project:list-packages --> 200 (70 ms)
+[2026-10-09T14:11:29.498Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-10-09T14:11:29.552Z][INFO] project:list-packages --> 200 (54 ms)
+[2026-10-09T14:11:29.559Z][INFO] config:project:get-registries <-- Request received
+params: {}
+[2026-10-09T14:11:29.562Z][INFO] config:project:get-registries --> 200 (3 ms)
+[2026-10-09T14:11:31.133Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-10-09T14:11:31.222Z][INFO] project:list-packages --> 200 (90 ms)
+[2026-10-09T14:11:31.876Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-10-09T14:11:32.080Z][INFO] project:list-packages --> 200 (204 ms)
+[2026-10-09T14:11:36.761Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-10-09T14:11:36.868Z][INFO] project:list-packages --> 200 (107 ms)
+[2026-10-09T14:12:00.908Z][INFO] Received shutdown request (SIGINT), shutting down Unity Package Manager
