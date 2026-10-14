@@ -22,7 +22,6 @@ public class Player2_5D : MonoBehaviour
 
     void Update()
     {
-        // Leer input con el nuevo sistema
         float inputH = 0f;
         if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) 
         {
@@ -41,7 +40,6 @@ public class Player2_5D : MonoBehaviour
         Mover(movimientoHorizontal * Time.fixedDeltaTime);
     }
 
-    // Quité el [System.Obsolete] porque este método no está obsoleto
     private void Mover(float mover)
     {
         Vector3 velocidadObjetivo = new Vector2(mover, rigid.linearVelocity.y);
