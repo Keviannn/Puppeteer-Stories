@@ -3,8 +3,8 @@ using UnityEngine;
 public class Movimiento3D : MonoBehaviour
 {
     private Rigidbody _rigid;
-    public float speed = 12f;
-    public float jump = 100f;
+    public float speed = 5f;
+    public float jump = 40f;
     public float mirarSpeed = 10f;
     
 
