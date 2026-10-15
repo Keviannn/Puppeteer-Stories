@@ -6,14 +6,16 @@ using UnityEngine.InputSystem;
 public class Player2_5D : MonoBehaviour
 {
     private Rigidbody rigid;
-
     [Header("Movimiento")]
     private float movimientoHorizontal = 0f;
+    private float jumpIntention = 0f;
     [SerializeField] private float velocidadDeMovimiento;
     [SerializeField] private float suavizadoDeMovimiento = 0f;
+    [SerializeField] private float jumpForce;
     
     private Vector3 velocidad = Vector3.zero;
     private bool mirandoDerecha = true;
+    private bool isGrounded = false;
 
     void Start()
     {
@@ -31,8 +33,10 @@ public class Player2_5D : MonoBehaviour
         {
             inputH = 1f;
         }
-
         movimientoHorizontal = inputH * velocidadDeMovimiento;
+	if(Keyboard.current.spaceKey.isPressed  && isGrounded){
+		jumpIntention=1f;
+	}
     }
 
     void FixedUpdate()
@@ -44,7 +48,8 @@ public class Player2_5D : MonoBehaviour
     {
         Vector3 velocidadObjetivo = new Vector2(mover, rigid.linearVelocity.y);
         rigid.linearVelocity = Vector3.SmoothDamp(rigid.linearVelocity, velocidadObjetivo, ref velocidad, suavizadoDeMovimiento);
-
+	rigid.AddForce(Vector3.up * jumpForce * jumpIntention, ForceMode.Impulse);
+	jumpIntention = 0f;
         if(mover > 0 && !mirandoDerecha)
         {
             Girar();
@@ -61,5 +66,13 @@ public class Player2_5D : MonoBehaviour
         Vector3 escala = transform.localScale;
         escala.x *= -1;
         transform.localScale = escala;
+    }
+    void OnCollisionStay()
+    {
+        isGrounded = true;
+    }
+    void OnCollisionExit()
+    {
+	isGrounded = false;
     }
 }
