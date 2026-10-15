@@ -371,8 +371,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6156c50a0a2fa4db4876bef92cf0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movimiento3D
-  speed: 12
-  jump: 100
+  speed: 5
+  jump: 40
   mirarSpeed: 10
 --- !u!54 &684897121
 Rigidbody:
@@ -399,8 +399,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!65 &684897122
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -408,7 +408,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 684897119}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 38016189b9f2ae04a95ddc21ec4b0238, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -698,7 +698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48f07b909c1a5444699405b58f84fb18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragableObjects3D
-  speed: 500
 --- !u!65 &955192833
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -804,7 +803,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48f07b909c1a5444699405b58f84fb18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragableObjects3D
-  speed: 500
 --- !u!54 &955192838
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1198,7 +1196,7 @@ GameObject:
   - component: {fileID: 1959922567}
   m_Layer: 0
   m_Name: Cube (4)
-  m_TagString: Untagged
+  m_TagString: wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1215,7 +1213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a554302f9a3e9489bd4c0a71698557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClickToMoveObjects3D
-  posicion_original: 0
 --- !u!65 &1959922568
 BoxCollider:
   m_ObjectHideFlags: 0
