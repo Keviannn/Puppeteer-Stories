@@ -67,11 +67,11 @@ public class Player2_5D : MonoBehaviour
         escala.x *= -1;
         transform.localScale = escala;
     }
-    void OnCollisionStay()
+    void OnTriggerStay()
     {
         isGrounded = true;
     }
-    void OnCollisionExit()
+    void OnTriggerExit()
     {
 	isGrounded = false;
     }
