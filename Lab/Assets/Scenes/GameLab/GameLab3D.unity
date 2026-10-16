@@ -676,7 +676,6 @@ GameObject:
   - component: {fileID: 955192835}
   - component: {fileID: 955192834}
   - component: {fileID: 955192833}
-  - component: {fileID: 955192832}
   - component: {fileID: 955192837}
   - component: {fileID: 955192838}
   m_Layer: 0
@@ -686,18 +685,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &955192832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 955192831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48f07b909c1a5444699405b58f84fb18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DragableObjects3D
 --- !u!65 &955192833
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -800,9 +787,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 955192831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48f07b909c1a5444699405b58f84fb18, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e2b32f0e3a7c8546a8ed7a153add2a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragableObjects3D
+  speed: 500
 --- !u!54 &955192838
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1210,9 +1198,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1959922566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68a554302f9a3e9489bd4c0a71698557, type: 3}
+  m_Script: {fileID: 11500000, guid: e2d7afd383907b64693296bfd098a198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClickToMoveObjects3D
+  posicion_original: 0
 --- !u!65 &1959922568
 BoxCollider:
   m_ObjectHideFlags: 0
