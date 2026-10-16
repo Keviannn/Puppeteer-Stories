@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem; 
 
+//INTENTO DE DESBUGEAR EL ARRASTRAR EN 2D, CRASHEA
+
 public class DragableObjects2D : MonoBehaviour
 {
     Vector3 mousePos;
@@ -22,7 +24,7 @@ public class DragableObjects2D : MonoBehaviour
     void Update()
     {
 	if(active == false){
-		rb = GetObject().Rigidbody2D;
+		rb = GetObject();
 	}
     if(rb != null && Input.GetMouseButton(0)){
 		active = true;
