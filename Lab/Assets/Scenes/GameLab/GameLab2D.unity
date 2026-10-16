@@ -1008,11 +1008,10 @@ GameObject:
   - component: {fileID: 944101203}
   - component: {fileID: 944101202}
   - component: {fileID: 944101208}
-  - component: {fileID: 944101207}
-  - component: {fileID: 944101206}
+  - component: {fileID: 944101209}
   m_Layer: 3
   m_Name: Arrastrable Float
-  m_TagString: Untagged
+  m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1135,35 +1134,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!114 &944101206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 944101201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0318084ccdf7844a887ffe575698a87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DraggableObjects2D
-  speed: 0.3
-  draggableLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &944101207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 944101201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ed171fe780c1ea47b49c4859c65f228, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClickToMoveObjects2D
-  posicion_original: 1
 --- !u!50 &944101208
 Rigidbody2D:
   serializedVersion: 5
@@ -1190,7 +1160,20 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &944101209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944101201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da85e57822eda94caccd276ceb44ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragableObjects2D
+  timeToStopDrag: 1
 --- !u!1 &968580304
 GameObject:
   m_ObjectHideFlags: 0
@@ -1646,11 +1629,10 @@ GameObject:
   - component: {fileID: 1705626288}
   - component: {fileID: 1705626287}
   - component: {fileID: 1705626293}
-  - component: {fileID: 1705626292}
-  - component: {fileID: 1705626291}
+  - component: {fileID: 1705626294}
   m_Layer: 3
   m_Name: Arrastrable Grav
-  m_TagString: Untagged
+  m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1773,35 +1755,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!114 &1705626291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1705626286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0318084ccdf7844a887ffe575698a87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DragableObjects2D
-  speed: 0.3
-  draggableLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &1705626292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1705626286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ed171fe780c1ea47b49c4859c65f228, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClickToMoveObjects2D
-  posicion_original: 1
 --- !u!50 &1705626293
 Rigidbody2D:
   serializedVersion: 5
@@ -1829,6 +1782,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1705626294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705626286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da85e57822eda94caccd276ceb44ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragableObjects2D
+  timeToStopDrag: 1
 --- !u!1 &1706046031
 GameObject:
   m_ObjectHideFlags: 0

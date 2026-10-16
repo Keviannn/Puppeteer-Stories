@@ -37,7 +37,8 @@ public class DragableObjects3D : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-            if (rb != null)
+	    string tag = hit.collider.tag;
+            if (rb != null && tag == "Drag")
             {
                 // Guardamos la distancia a la cámara para el arrastre
                 objectDepth = Vector3.Distance(Camera.main.transform.position, hit.point);
