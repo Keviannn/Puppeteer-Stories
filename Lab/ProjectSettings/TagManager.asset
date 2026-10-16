@@ -6,7 +6,7 @@ TagManager:
   tags:
   - wall
   - Drag
-  - Drag3D
+  - AltDrag
   layers:
   - Default
   - TransparentFX

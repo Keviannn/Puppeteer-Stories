@@ -680,7 +680,7 @@ GameObject:
   - component: {fileID: 955192839}
   m_Layer: 0
   m_Name: Cube (5)
-  m_TagString: Untagged
+  m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -814,9 +814,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 955192831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72d994216faa615d4a92a4bb0ca633de, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e2b32f0e3a7c8546a8ed7a153add2a5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DragableObjects
+  m_EditorClassIdentifier: Assembly-CSharp::DragableObjects3D
   speed: 500
 --- !u!1 &1120858939
 GameObject:
@@ -946,7 +946,7 @@ GameObject:
   - component: {fileID: 1368973676}
   m_Layer: 0
   m_Name: AltDrag
-  m_TagString: Untagged
+  m_TagString: AltDrag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
