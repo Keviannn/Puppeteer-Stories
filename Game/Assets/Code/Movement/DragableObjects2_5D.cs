@@ -6,6 +6,7 @@ public class DragableObjects2_5D : MonoBehaviour
     Vector3 mousePos;
     Camera cam;
     bool active = false;
+    public float dragSpeed = 1.0f;
     public float timeToStopDrag = 1.0f;
     float time;
     Rigidbody rb;
@@ -26,12 +27,17 @@ public class DragableObjects2_5D : MonoBehaviour
 	}
         if(rb != null && Input.GetMouseButton(0)){
 		active = true;
+		rb.useGravity = false;
+		rb.linearVelocity = new Vector3(0f,0f,0f);
 		time = timeToStopDrag;
 	} else if(time >= 0){
 		time = time - Time.deltaTime;
 	} else {
 		active = false;
-		rb =null;
+		if(rb != null){
+			rb.useGravity = true;
+		}
+		rb = null;
 	}
     }
 
@@ -44,8 +50,11 @@ public class DragableObjects2_5D : MonoBehaviour
     void OnMouseDrag()
 	{
 		float distance_to_screen = Camera.main.WorldToScreenPoint(transform.position).z;
-		rb.MovePosition(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance_to_screen)));
-	 
+		Vector3 direction = Camera.main.ScreenToWorldPoint( new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance_to_screen)) -rb.position;
+		direction.Normalize();
+		//Debug.Log(direction);
+		rb.MovePosition(rb.position + dragSpeed * direction);
+		Debug.Log(rb.linearVelocity);
 	}
     Rigidbody GetObject(){
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
