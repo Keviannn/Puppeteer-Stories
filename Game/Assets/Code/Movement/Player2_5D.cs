@@ -17,6 +17,13 @@ public class Player2_5D : MonoBehaviour
     private bool mirandoDerecha = true;
     private bool isGrounded = false;
 
+    private float coyoteTime=0.2f;
+    private float coyoteTimeCounter;
+
+    private float jumpBuffer = 0.2f;
+    private float jumpBufferCounter;
+
+
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
@@ -34,9 +41,31 @@ public class Player2_5D : MonoBehaviour
             inputH = 1f;
         }
         movimientoHorizontal = inputH * velocidadDeMovimiento;
-	if(Keyboard.current.spaceKey.isPressed  && isGrounded){
+    if(isGrounded){
+        coyoteTimeCounter = coyoteTime;
+    }
+    else{
+        coyoteTimeCounter -= Time.deltaTime;
+    }
+    if(Keyboard.current.spaceKey.isPressed){
+        jumpBufferCounter = jumpBuffer;
+    }
+    else{
+        jumpBufferCounter-= Time.deltaTime;
+    }
+	if(jumpBufferCounter > 0  && coyoteTimeCounter > 0f){
+        coyoteTimeCounter = 0f;
+        jumpBufferCounter = 0f;
 		jumpIntention=1f;
 	}
+    if(Keyboard.current.spaceKey.wasReleasedThisFrame && rigid.linearVelocity.y > 0){
+        Vector3 v = rigid.linearVelocity;
+        if (v.y > 0f)
+        {
+            v.y *= 0.5f;
+            rigid.linearVelocity = v;
+        }
+    }
     }
 
     void FixedUpdate()
@@ -46,7 +75,7 @@ public class Player2_5D : MonoBehaviour
 
     private void Mover(float mover)
     {
-        Vector3 velocidadObjetivo = new Vector2(mover, rigid.linearVelocity.y);
+       Vector3 velocidadObjetivo = new Vector2(mover, rigid.linearVelocity.y);
         rigid.linearVelocity = Vector3.SmoothDamp(rigid.linearVelocity, velocidadObjetivo, ref velocidad, suavizadoDeMovimiento);
 	rigid.AddForce(Vector3.up * jumpForce * jumpIntention, ForceMode.Impulse);
 	jumpIntention = 0f;
