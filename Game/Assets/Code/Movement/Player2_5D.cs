@@ -17,10 +17,10 @@ public class Player2_5D : MonoBehaviour
     private bool mirandoDerecha = true;
     private bool isGrounded = false;
 
-    private float coyoteTime=0.2f;
+    private float coyoteTime=0.15f;
     private float coyoteTimeCounter;
 
-    private float jumpBuffer = 0.2f;
+    private float jumpBuffer = 0.25f;
     private float jumpBufferCounter;
 
 
@@ -54,6 +54,12 @@ public class Player2_5D : MonoBehaviour
         jumpBufferCounter-= Time.deltaTime;
     }
 	if(jumpBufferCounter > 0  && coyoteTimeCounter > 0f){
+        Vector3 v = rigid.linearVelocity;
+        if (v.y > 0f)
+        {
+            v.y *= 0f;
+            rigid.linearVelocity = v;
+        }
         coyoteTimeCounter = 0f;
         jumpBufferCounter = 0f;
 		jumpIntention=1f;
@@ -77,7 +83,7 @@ public class Player2_5D : MonoBehaviour
     {
        Vector3 velocidadObjetivo = new Vector2(mover, rigid.linearVelocity.y);
         rigid.linearVelocity = Vector3.SmoothDamp(rigid.linearVelocity, velocidadObjetivo, ref velocidad, suavizadoDeMovimiento);
-	rigid.AddForce(Vector3.up * jumpForce * jumpIntention, ForceMode.Impulse);
+	rigid.AddForce(Vector3.up * jumpForce * jumpIntention * 3f, ForceMode.Impulse);
 	jumpIntention = 0f;
         if(mover > 0 && !mirandoDerecha)
         {
