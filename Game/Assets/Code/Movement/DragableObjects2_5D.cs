@@ -43,11 +43,11 @@ public class DragableObjects2_5D : MonoBehaviour
 
     void FixedUpdate(){
 	if(active){
-		OnMouseDrag();
+		OnMouseDr();
 	}
 
     }
-    void OnMouseDrag()
+    void OnMouseDr()
 	{
 		float distance_to_screen = Camera.main.WorldToScreenPoint(transform.position).z;
 		Vector3 direction = Camera.main.ScreenToWorldPoint( new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance_to_screen)) -rb.position;
