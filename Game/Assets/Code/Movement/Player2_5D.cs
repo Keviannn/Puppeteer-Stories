@@ -11,6 +11,10 @@ public class Player2_5D : MonoBehaviour
     private float jumpIntention = 0f;
     [SerializeField] private float velocidadDeMovimiento;
     [SerializeField] private float suavizadoDeMovimiento = 0f;
+    [SerializeField] private float aceleracion = 0f;
+    [SerializeField] private float deceleracion = 0f;
+    private float velocidadHorizontal = 0f;
+
     [SerializeField] private float jumpForce;
     
     private Vector3 velocidad = Vector3.zero;
@@ -41,37 +45,42 @@ public class Player2_5D : MonoBehaviour
             inputH = 1f;
         }
         movimientoHorizontal = inputH * velocidadDeMovimiento;
-    if(isGrounded){
-        coyoteTimeCounter = coyoteTime;
-    }
-    else{
-        coyoteTimeCounter -= Time.deltaTime;
-    }
-    if(Keyboard.current.spaceKey.isPressed){
-        jumpBufferCounter = jumpBuffer;
-    }
-    else{
-        jumpBufferCounter-= Time.deltaTime;
-    }
-	if(jumpBufferCounter > 0  && coyoteTimeCounter > 0f){
-        Vector3 v = rigid.linearVelocity;
-        if (v.y > 0f)
+        if(isGrounded)
         {
-            v.y *= 0f;
-            rigid.linearVelocity = v;
+            coyoteTimeCounter = coyoteTime;
         }
-        coyoteTimeCounter = 0f;
-        jumpBufferCounter = 0f;
-		jumpIntention=1f;
-	}
-    if(Keyboard.current.spaceKey.wasReleasedThisFrame && rigid.linearVelocity.y > 0){
-        Vector3 v = rigid.linearVelocity;
-        if (v.y > 0f)
+        else
         {
-            v.y *= 0.5f;
-            rigid.linearVelocity = v;
+            coyoteTimeCounter -= Time.deltaTime;
         }
-    }
+        if(Keyboard.current.spaceKey.isPressed){
+            jumpBufferCounter = jumpBuffer;
+        }
+        else
+        {
+            jumpBufferCounter-= Time.deltaTime;
+        }
+        if(jumpBufferCounter > 0  && coyoteTimeCounter > 0f)
+        {
+            Vector3 v = rigid.linearVelocity;
+            if (v.y > 0f)
+            {
+                v.y *= 0f;
+                rigid.linearVelocity = v;
+            }
+            coyoteTimeCounter = 0f;
+            jumpBufferCounter = 0f;
+            jumpIntention=1f;
+	    }
+        if(Keyboard.current.spaceKey.wasReleasedThisFrame && rigid.linearVelocity.y > 0)
+        {
+            Vector3 v = rigid.linearVelocity;
+            if (v.y > 0f)
+            {
+                v.y *= 0.5f;
+                rigid.linearVelocity = v;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -81,10 +90,24 @@ public class Player2_5D : MonoBehaviour
 
     private void Mover(float mover)
     {
-       Vector3 velocidadObjetivo = new Vector2(mover, rigid.linearVelocity.y);
+        //Tasa de Aceleración/Deceleración
+        float tasa;
+        if(mover != 0f)
+        {
+            tasa = aceleracion;
+        }
+        else
+        {
+            tasa = deceleracion;
+        }
+
+        //Función de velocidad afectada por la aceleración
+        velocidadHorizontal = Mathf.MoveTowards(velocidadHorizontal, mover, tasa * Time.fixedDeltaTime);
+
+        Vector3 velocidadObjetivo = new Vector2(velocidadHorizontal, rigid.linearVelocity.y);
         rigid.linearVelocity = Vector3.SmoothDamp(rigid.linearVelocity, velocidadObjetivo, ref velocidad, suavizadoDeMovimiento);
-	rigid.AddForce(Vector3.up * jumpForce * jumpIntention * 3f, ForceMode.Impulse);
-	jumpIntention = 0f;
+	    rigid.AddForce(Vector3.up * jumpForce * jumpIntention * 3f, ForceMode.Impulse);
+	    jumpIntention = 0f;
         if(mover > 0 && !mirandoDerecha)
         {
             Girar();
