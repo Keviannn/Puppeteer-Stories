@@ -724,7 +724,7 @@ GameObject:
   - component: {fileID: 1072655052}
   m_Layer: 0
   m_Name: Draggable
-  m_TagString: Untagged
+  m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -831,8 +831,8 @@ Rigidbody:
   m_GameObject: {fileID: 1072655046}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDamping: 0.1
+  m_AngularDamping: 20
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -847,7 +847,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!114 &1072655052
 MonoBehaviour:
@@ -861,8 +861,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d6464ddde180f8c972ba34c3cdb2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragableObjects2_5D
-  dragSpeed: 1
-  timeToStopDrag: 0.05
+  inputBuffer: 0.1
+  maxSpeed: 20
+  dragForce: 15
+  maxDistanceToMouse: 5
+  minDistanceToMouse: 1
 --- !u!1 &1081219913
 GameObject:
   m_ObjectHideFlags: 0

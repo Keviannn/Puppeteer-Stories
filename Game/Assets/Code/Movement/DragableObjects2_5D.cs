@@ -3,13 +3,16 @@ using UnityEngine.InputSystem;
 
 /*
  * Este script solo debería estar una vez por escena, puede estar en cualquier objeto
+ * Solo funciona sobre objetos con la tag "Drag"
+ * Falta por implementar deceleracion cuando se acerca al mouse y probablemente desactivar la gravedad
+ * y programar un equivalente, para que vaya el linea recta al mouse pero sigas moviendo diferente cosas por su peso
  */
 
 public class DragableObjects2_5D : MonoBehaviour
 {
     public float inputBuffer = 0.1f; // tiempo hasta que se pare de arrastrar
-    public float maxSpeed = 15.0f;
-    public float dragForce = 10.0f;
+    public float maxSpeed = 20.0f;
+    public float dragForce = 15.0f;
     public float maxDistanceToMouse = 5.0f; //distancias a partir de las cual el linearDamp no cambia
     public float minDistanceToMouse = 1.0f;
 
@@ -83,8 +86,7 @@ public class DragableObjects2_5D : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-	    tag = hit.collider.tag;
-            if (rb != null && tag == "Drag")
+            if (rb != null && hit.collider.tag == "Drag")
             {
                 return rb;
             }
