@@ -7,6 +7,8 @@ TagManager:
   - wall
   - Drag
   - AltDrag
+  - Drawer
+  - DrawerBox
   layers:
   - Default
   - TransparentFX
