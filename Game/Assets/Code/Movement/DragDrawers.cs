@@ -8,6 +8,11 @@ public class DragDrawers : MonoBehaviour
     public float dampingRatio = 1f;      // 1 = sin rebote; <1 rebota un poco
     public float maxForce = 200f;        // límite de fuerza (evita empujones violentos)
     public float maxSpeed = 20f;         // límite de velocidad
+    public float recorridoNegativo = 0f;   
+    public float recorridoPositivo = 2.3f;   
+    float minX, maxX;
+
+    System.Collections.Generic.Dictionary<Rigidbody, float> posInicialX = new System.Collections.Generic.Dictionary<Rigidbody, float>();
 
     float time;
     Camera cam;
@@ -21,6 +26,7 @@ public class DragDrawers : MonoBehaviour
         cam = Camera.main;
         if (cam == null)
             Debug.LogError("DragDrawers no ha encontrado cámara");
+
     }
 
     void Update()
@@ -37,6 +43,12 @@ public class DragDrawers : MonoBehaviour
                 dragDepth = cam.WorldToScreenPoint(rb.position).z;
                 // Amortiguación crítica: sin rebotes ni oscilación
                 damping = 2f * Mathf.Sqrt(stiffness * rb.mass) * dampingRatio;
+
+                if (!posInicialX.ContainsKey(rb))
+                    posInicialX[rb] = rb.position.x;
+
+                minX = posInicialX[rb] - recorridoNegativo;
+                maxX = posInicialX[rb] + recorridoPositivo;
             }
             time = inputBuffer;
         }
@@ -77,6 +89,17 @@ public class DragDrawers : MonoBehaviour
         // Límite de velocidad
         if (rb.linearVelocity.magnitude > maxSpeed)
             rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+
+        Vector3 pos = rb.position;
+        if (pos.x < minX || pos.x > maxX)
+        {
+            pos.x = Mathf.Clamp(pos.x, minX, maxX);
+            rb.position = pos;
+            Vector3 v = rb.linearVelocity;
+            v.x = 0f;
+            rb.linearVelocity = v;
+        }
+    
     }
 
     Rigidbody GetObject()
