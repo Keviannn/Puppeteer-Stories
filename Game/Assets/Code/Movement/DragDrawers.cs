@@ -9,7 +9,7 @@ public class DragDrawers : MonoBehaviour
     public float maxForce = 200f;        // límite de fuerza (evita empujones violentos)
     public float maxSpeed = 20f;         // límite de velocidad
     public float recorridoNegativo = 0f;   
-    public float recorridoPositivo = 2.3f;   
+    public float recorridoPositivo = 2.1f;   
     float minX, maxX;
 
     System.Collections.Generic.Dictionary<Rigidbody, float> posInicialX = new System.Collections.Generic.Dictionary<Rigidbody, float>();

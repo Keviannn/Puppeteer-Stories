@@ -278,7 +278,7 @@ MonoBehaviour:
   maxForce: 200
   maxSpeed: 20
   recorridoNegativo: 0
-  recorridoPositivo: 2.3
+  recorridoPositivo: 2.1
 --- !u!1 &288381152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,6 +1338,10 @@ MonoBehaviour:
   suavizadoDeMovimiento: 0.01
   aceleracion: 6
   deceleracion: 40
+  distanciaPared: 0.65
+  capasSuelo:
+    serializedVersion: 2
+    m_Bits: 4294967295
   jumpForce: 3
 --- !u!65 &1081219923
 BoxCollider:
@@ -1801,7 +1805,7 @@ MonoBehaviour:
   maxForce: 200
   maxSpeed: 20
   recorridoNegativo: 0
-  recorridoPositivo: 2.3
+  recorridoPositivo: 2.1
 --- !u!1 &1520166808
 GameObject:
   m_ObjectHideFlags: 0

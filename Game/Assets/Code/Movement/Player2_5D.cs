@@ -14,6 +14,8 @@ public class Player2_5D : MonoBehaviour
     [SerializeField] private float aceleracion = 0f;
     [SerializeField] private float deceleracion = 0f;
     private float velocidadHorizontal = 0f;
+    [SerializeField] private float distanciaPared = 0.55f;   // algo más que la mitad del ancho del jugador
+    [SerializeField] private LayerMask capasSuelo = ~0;
 
     [SerializeField] private float jumpForce;
     
@@ -45,6 +47,11 @@ public class Player2_5D : MonoBehaviour
             inputH = 1f;
         }
         movimientoHorizontal = inputH * velocidadDeMovimiento;
+        float dir = Mathf.Sign(velocidadHorizontal);
+        if (HayParedDelante(dir))
+        {
+            velocidadHorizontal = 0f;
+        }
         if(isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
@@ -96,9 +103,12 @@ public class Player2_5D : MonoBehaviour
         {
             tasa = aceleracion;
         }
-        else
+        else if (isGrounded)
         {
             tasa = deceleracion;
+        }
+        else {
+            tasa = 0f;
         }
 
         //Función de velocidad afectada por la aceleración
@@ -133,4 +143,9 @@ public class Player2_5D : MonoBehaviour
     {
 	isGrounded = false;
     }
+
+    private bool HayParedDelante(float dir){
+    if (dir == 0f) return false;
+    return Physics.Raycast(transform.position, Vector3.right * dir,distanciaPared, capasSuelo, QueryTriggerInteraction.Ignore);
+}
 }
