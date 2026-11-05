@@ -1,153 +1,200 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem; 
 
 public class Player2_5D : MonoBehaviour
 {
-    private Rigidbody rigid;
-    [Header("Movimiento")]
-    private float movimientoHorizontal = 0f;
-    private float jumpIntention = 0f;
-    [SerializeField] private float velocidadDeMovimiento;
-    [SerializeField] private float suavizadoDeMovimiento = 0f;
-    [SerializeField] private float aceleracion = 0f;
-    [SerializeField] private float deceleracion = 0f;
-    private float velocidadHorizontal = 0f;
-    [SerializeField] private float distanciaPared = 0.55f;   // algo más que la mitad del ancho del jugador
-    [SerializeField] private LayerMask capasSuelo = ~0;
+    [Header("Movement")]
+    [SerializeField] private float maxSpeed = 10f;
+    [SerializeField] private float groundAcceleration = 15f;
+    [SerializeField] private float groundDeceleration = 40f;
+    [SerializeField] private float airAcceleration = 4f;
+    [SerializeField] private float airDeceleration = 0f;
 
-    [SerializeField] private float jumpForce;
-    
-    private Vector3 velocidad = Vector3.zero;
-    private bool mirandoDerecha = true;
-    private bool isGrounded = false;
+    [Header("Jump")]
+    [SerializeField] private float jumpSpeed = 9f;
+    [SerializeField] private float jumpCutMultiplier = 0.5f;
+    [SerializeField] private float coyoteTime = 0.15f;
+    [SerializeField] private float jumpBufferTime = 0.25f;
 
-    private float coyoteTime=0.15f;
-    private float coyoteTimeCounter;
+    [Header("Gravity")]
+    [SerializeField] private float gravity = 9.8f;
+    [SerializeField] private float fallGravityMultiplier = 2.5f;
+    [SerializeField] private float maxFallSpeed = 25f;
 
-    private float jumpBuffer = 0.25f;
-    private float jumpBufferCounter;
+    [Header("Ground")]
+    [SerializeField] private float groundedGraceTime = 0.05f;
 
+    [Header("Physics Material")]
+    [SerializeField] private PhysicsMaterial noFrictionMaterial;
 
-    void Start()
+    private Rigidbody rb;
+    private CapsuleCollider capsule;
+
+    private float inputX;
+    private bool isGrounded;
+
+    private float groundedTimer;
+    private float coyoteTimer;
+    private float jumpBufferTimer;
+    private bool jumpCutRequested;
+
+    private void Start()
     {
-        rigid = GetComponent<Rigidbody>();
-        rigid.useGravity = false;
+        rb = GetComponent<Rigidbody>();
+        capsule = GetComponent<CapsuleCollider>();
+
+        // Keep the player awake so OnCollisionStay keeps reporting ground contacts.
+        rb.sleepThreshold = 0f;
+
+        // Avoid tunnelling through thin platforms at high vertical speed.
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
+        // Assign a frictionless material so the player cannot cling to walls.
+        capsule.material = noFrictionMaterial;
+
+        // Custom gravity
+        rb.useGravity = false;
     }
 
-    void Update()
+    // Handle user input
+    private void Update()
     {
-        float inputH = 0f;
-        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) 
+        ReadMovementInput();
+        ReadJumpInput();
+    }
+
+    // Execute every tick
+    private void FixedUpdate()
+    {
+        UpdateGroundedState();
+        UpdateJumpTimers();
+        MoveHorizontal();
+        TryJump();
+        ApplyGravity();
+        ApplyJumpCut();
+    }
+
+    // Get horizontal movement direction input 
+    private void ReadMovementInput()
+    {
+        inputX = 0f;
+
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
+            inputX = -1f;
+        else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+            inputX = 1f;
+    }
+
+    // Get jump input
+    private void ReadJumpInput()
+    {
+        // Only register a new jump on the key press
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            jumpBufferTimer = jumpBufferTime;
+
+        // Register that the player wants to end the jump
+        if (Keyboard.current.spaceKey.wasReleasedThisFrame)
+            jumpCutRequested = true;
+    }
+
+    // Set grounded grace time based on collision with floor
+    private void OnCollisionStay(Collision collision)
+    {
+        foreach (ContactPoint contact in collision.contacts)
         {
-            inputH = -1f;
-        }
-        else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) 
-        {
-            inputH = 1f;
-        }
-        movimientoHorizontal = inputH * velocidadDeMovimiento;
-        float dir = Mathf.Sign(velocidadHorizontal);
-        if (isGrounded && HayParedDelante(dir))
-        {
-            velocidadHorizontal = 0f;
-        }
-        if(isGrounded)
-        {
-            coyoteTimeCounter = coyoteTime;
-        }
-        else
-        {
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-        if(Keyboard.current.spaceKey.isPressed){
-            jumpBufferCounter = jumpBuffer;
-        }
-        else
-        {
-            jumpBufferCounter-= Time.deltaTime;
-        }
-        if(jumpBufferCounter > 0  && coyoteTimeCounter > 0f)
-        {
-            Vector3 v = rigid.linearVelocity;
-            if (v.y > 0f)
+            // Check for a mostly vertical normal (likely a floor)
+            if (contact.normal.y > 0.5f)
             {
-                v.y *= 0f;
-                rigid.linearVelocity = v;
-            }
-            coyoteTimeCounter = 0f;
-            jumpBufferCounter = 0f;
-            jumpIntention=1.5f;
-	    }
-        if(Keyboard.current.spaceKey.wasReleasedThisFrame && rigid.linearVelocity.y > 0)
-        {
-            Vector3 v = rigid.linearVelocity;
-            if (v.y > 0f)
-            {
-                v.y *= 0.5f;
-                rigid.linearVelocity = v;
+                groundedTimer = groundedGraceTime;
+                return;
             }
         }
     }
 
-    void FixedUpdate()
+    // Set the isGrounded flag only after grace time passes
+    private void UpdateGroundedState()
     {
-        Mover(movimientoHorizontal * Time.fixedDeltaTime);
-        rigid.AddForce(Physics.gravity * 1.5f * rigid.mass, ForceMode.Force);
+        isGrounded = groundedTimer > 0f;
+        groundedTimer -= Time.fixedDeltaTime;
     }
 
-    private void Mover(float mover)
+    // Horizontal movement handler
+    private void MoveHorizontal()
     {
-        //Tasa de Aceleración/Deceleración
-        float tasa;
-        if(mover != 0f)
+        // Actual velocity and target velocity
+        float currentVx = rb.linearVelocity.x;
+        float targetVx = inputX * maxSpeed;
+
+        float rate;
+        if (isGrounded)
+            rate = (targetVx != 0) ? groundAcceleration : groundDeceleration;
+        else
+            rate = (targetVx != 0) ? airAcceleration : airDeceleration;
+
+        // Moves currentVx towards targetVx at the rate every step
+        float newVx = Mathf.MoveTowards(currentVx, targetVx, rate * Time.fixedDeltaTime);
+
+        // Adds the new velocity change as a force
+        rb.AddForce(new Vector3(newVx - currentVx, 0f, 0f), ForceMode.VelocityChange);
+    }
+
+    // Update jump related timers
+    private void UpdateJumpTimers()
+    {
+        if (isGrounded)
+            coyoteTimer = coyoteTime;
+        else
+            coyoteTimer -= Time.fixedDeltaTime;
+
+        jumpBufferTimer -= Time.fixedDeltaTime;
+    }
+
+    // Attempt to jump
+    private void TryJump()
+    {
+        // If theres no buffer nor coyote timer, player can't jump
+        if (jumpBufferTimer <= 0f || coyoteTimer <= 0f)
+            return;
+
+        // Set variables for on air status
+        jumpBufferTimer = 0f;
+        coyoteTimer = 0f;
+        groundedTimer = 0f;
+        isGrounded = false;
+
+        // Set vertical speed
+        Vector3 velocity = rb.linearVelocity;
+        velocity.y = jumpSpeed;
+        rb.linearVelocity = velocity;
+    }
+
+    private void ApplyGravity()
+    {
+        // More gravity falling, less jumping
+        if (rb.linearVelocity.y < 0f)
+            rb.AddForce(Vector3.up * -gravity * (fallGravityMultiplier - 1f), ForceMode.Acceleration);
+        else
+            rb.AddForce(Vector3.up * -gravity, ForceMode.Acceleration);
+
+        // Set max fall speed
+        if (rb.linearVelocity.y < -maxFallSpeed)
         {
-            tasa = aceleracion;
-        }
-        else if (isGrounded)
-        {
-            tasa = deceleracion;
-        }
-        else {
-            tasa = 0f;
-        }
-
-        //Función de velocidad afectada por la aceleración
-        velocidadHorizontal = Mathf.MoveTowards(velocidadHorizontal, mover, tasa * Time.fixedDeltaTime);
-
-        Vector3 velocidadObjetivo = new Vector2(velocidadHorizontal, rigid.linearVelocity.y);
-        rigid.linearVelocity = Vector3.SmoothDamp(rigid.linearVelocity, velocidadObjetivo, ref velocidad, suavizadoDeMovimiento);
-	    rigid.AddForce(Vector3.up * jumpForce * jumpIntention * 3f, ForceMode.Impulse);
-	    jumpIntention = 0f;
-        if(mover > 0 && !mirandoDerecha)
-        {
-            Girar();
-        }
-        else if(mover < 0 && mirandoDerecha)
-        {
-            Girar();
+            Vector3 v = rb.linearVelocity;
+            v.y = -maxFallSpeed;
+            rb.linearVelocity = v;
         }
     }
 
-    private void Girar()
+    private void ApplyJumpCut()
     {
-        mirandoDerecha = !mirandoDerecha;
-        Vector3 escala = transform.localScale;
-        escala.x *= -1;
-        transform.localScale = escala;
-    }
-    void OnTriggerStay()
-    {
-        isGrounded = true;
-    }
-    void OnTriggerExit()
-    {
-	isGrounded = false;
-    }
+        // Releasing jump while rising shortens the jump
+        if (jumpCutRequested && rb.linearVelocity.y > 0f)
+        {
+            Vector3 velocity = rb.linearVelocity;
+            velocity.y *= jumpCutMultiplier;
+            rb.linearVelocity = velocity;
+        }
 
-    private bool HayParedDelante(float dir){
-    if (dir == 0f) return false;
-    return Physics.Raycast(transform.position, Vector3.right * dir,distanciaPared, capasSuelo, QueryTriggerInteraction.Ignore);
-}
+        jumpCutRequested = false;
+    }
 }
