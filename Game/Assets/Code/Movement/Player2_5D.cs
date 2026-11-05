@@ -33,6 +33,7 @@ public class Player2_5D : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+        rigid.useGravity = false;
     }
 
     void Update()
@@ -48,7 +49,7 @@ public class Player2_5D : MonoBehaviour
         }
         movimientoHorizontal = inputH * velocidadDeMovimiento;
         float dir = Mathf.Sign(velocidadHorizontal);
-        if (HayParedDelante(dir))
+        if (isGrounded && HayParedDelante(dir))
         {
             velocidadHorizontal = 0f;
         }
@@ -77,7 +78,7 @@ public class Player2_5D : MonoBehaviour
             }
             coyoteTimeCounter = 0f;
             jumpBufferCounter = 0f;
-            jumpIntention=1f;
+            jumpIntention=1.5f;
 	    }
         if(Keyboard.current.spaceKey.wasReleasedThisFrame && rigid.linearVelocity.y > 0)
         {
@@ -93,6 +94,7 @@ public class Player2_5D : MonoBehaviour
     void FixedUpdate()
     {
         Mover(movimientoHorizontal * Time.fixedDeltaTime);
+        rigid.AddForce(Physics.gravity * 1.5f * rigid.mass, ForceMode.Force);
     }
 
     private void Mover(float mover)
