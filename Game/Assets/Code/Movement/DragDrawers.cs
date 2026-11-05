@@ -7,7 +7,7 @@ public class DragDrawers : MonoBehaviour
     [Range(0.5f, 1.5f)]
     public float dampingRatio = 1f;      // 1 = sin rebote; <1 rebota un poco
     public float maxForce = 200f;        // límite de fuerza (evita empujones violentos)
-    public float maxSpeed = 1f;         // límite de velocidad
+    public float maxSpeed = 0.5f;      // límite de velocidad
     public float recorridoNegativo = 0f;   
     public float recorridoPositivo = 2.1f;   
     float minX, maxX;
