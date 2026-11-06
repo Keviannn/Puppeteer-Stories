@@ -26,7 +26,7 @@ public class Fusion : MonoBehaviour
             }
         }
 
-        
+        //It only creates the joint if the object is selected with the mouse.
         if (!Input.GetMouseButton(0))
         {
             siendoArrastrado = false;
@@ -37,7 +37,7 @@ public class Fusion : MonoBehaviour
             }
         }
 
-        
+        //If the player moves, the joint disappears
         if (jointVertical != null && jointVertical.connectedBody != null)
         {
             if (jointVertical.connectedBody.CompareTag("Player"))
@@ -52,6 +52,8 @@ public class Fusion : MonoBehaviour
         }
     }
 
+
+    //the joint is created
     void OnCollisionStay(Collision collision)
     {
         
