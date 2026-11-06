@@ -83,7 +83,7 @@ public class DragableObjects2_5D : MonoBehaviour
 		}
 	}
     // Devuelve el rigidbody del objeto que tiene encima el raton
-    Rigidbody GetObject(){
+    public Rigidbody GetObject(){
         Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {

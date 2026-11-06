@@ -64,6 +64,49 @@ public class NewTestScript
 
     }
 
+    [UnityTest]
+    public IEnumerator GetObject_Dragable()
+    {
+
+        GameObject camara = new GameObject();
+        Camera cam = camara.AddComponent<Camera>();
+        camara.transform.position = new Vector3(0, 0, -10);
+        camara.tag = "MainCamera";
+
+
+
+        GameObject dragable = new GameObject();
+        dragable.transform.position = new Vector3(0, 0, 0);
+        DragableObjects2_5D drag = dragable.AddComponent<DragableObjects2_5D>();
+
+        GameObject obj = new GameObject();
+
+        obj.transform.position = new Vector3(0, 0, 0);
+        obj.AddComponent<BoxCollider>();
+        Rigidbody rbObj = obj.AddComponent<Rigidbody>();
+        obj.tag = "Drag";
+
+
+        Vector3 pixel = cam.WorldToScreenPoint(obj.transform.position);
+
+        var raton = InputSystem.AddDevice<Mouse>();
+        raton.MakeCurrent();
+
+        var estado = new MouseState();
+        estado.position = new Vector2(pixel.x, pixel.y);
+        InputSystem.QueueStateEvent(raton, estado);
+
+        yield return null;
+
+        Rigidbody rb = drag.GetObject();
+
+        yield return null;
+
+        InputSystem.RemoveDevice(raton);
+
+        Assert.AreSame(rb,rbObj);
+    }
+
 
     [UnityTest]
     public IEnumerator ShouldMoveRight()
