@@ -59,7 +59,7 @@ Mezcla inspiraciones de:
 %---------------------------------------------------------------------
 \section{Jugadores objetivo}
 
-El juego está enfocado a un público general donde se puedan divertir gente de diversas edades y experiencia jugando videojuegos.
+El juego, al ser un juego de plataformas con puzles y controles sencillos, está enfocado a un público genral donde se pueda divertir gente de diversas edades y experiencia jugando videojuegos. El tono y temático del juego es apta para todos los públcos y no se tocan temas sensibles.
 
 %---------------------------------------------------------------------
 \section{Motivadores}
@@ -72,7 +72,7 @@ También habrá checkpoints con el objetivo de que al jugador no se le haga repe
 
 \section{Mecánica principal}
 
-La mecánica principal que define al juego es la interacción externa del usuario mediante el cursor para ayudar al transcurso de las aventuras del personaje.
+Mover al personaje con el teclado y mover elementos del entorno con el ratón para resolver diversos obstáculos y puzles dentro de cada nivel. Se moverán elementos del entorno como cajas o cajones, arrastrándolos por un camino para usarlos de plataforma, permitiendo al jugador acceder a zonas que previamente no podía.
 
 \section{Storyboard}
 
@@ -102,6 +102,50 @@ La mecánica principal que define al juego es la interacción externa del usuari
 \subsection{Kanban}
 
 \includegraphics[width=0.9\textwidth]{../figures/kanban}\\[1.5cm] 
+
+\section{Quality Assessment}
+
+\section{Documentación de Scripts y Repositorio}
+\textbf{Scripts:}
+\begin{itemize}
+    \item \texttt{Player2\_5D.cs}: controla el movimiento del jugador, el salto, su gravedad y la detección del suelo.
+    \item \texttt{MovingPlatform.cs}: mueve una plataforma en el eje Z que cambia de dirección al llegar a los límites.
+    \item \texttt{DragableObjects2\_5D.cs}: permite arrastrar con el ratón objetos con tag \texttt{Drag}.
+    \item \texttt{DragDrawers.cs}: arrastra objetos con tag \texttt{Drawer} mediante un muelle y limita su recorrido en X.
+    \item \texttt{FollowHandle.cs}: hace que el cajón siga al handle manteniendo su desfase inicial.
+    \item \texttt{FallDownWhenClick.cs}: activa la gravedad de un bloque al hacer clic sobre él.
+    \item \texttt{Fusion.cs}: prototipo que une temporalmente un objeto arrastrado con el jugador mediante un \texttt{FixedJoint}.
+    \item \texttt{NewTestScript.cs}: pruebas automatizadas de movimiento, salto, plataformas y arrastre.
+\end{itemize}
+
+
+\textbf{Estructura del Proyecto:}
+\begin{verbatim}
+    Game/
+    `-- Assets/
+        |-- Code/
+        |   `-- Movement/        # Player2_5D, MovingPlatform,
+        |                        # DragableObjects2_5D, DragDrawers,
+        |                        # FollowHandle, FallDownWhenClick,
+        |                        # Fusion, Game.asmdef
+        |-- Materials/           # Arrastrable.mat, Color Hielo.mat,
+        |                        # Resbaladizo.physicMaterial
+        |-- Prefabs/             # Player, MovingPlatform, Handle, Drawer,
+        |                        # DrawerBox, FinishedDrawer, Draggable,
+        |                        # FallWhenClickBlock
+        |-- Scenes/
+        |   |-- GameLab/         # GameLab2.5D.unity
+        |   `-- TestLevels/      # TestLevel1.unity
+        `-- Tests/               # NewTestScript.cs, Tests.asmdef
+\end{verbatim}
+
+\section{Documentación de IA Generativa}
+\begin{itemize}
+    \item Jose Luis: DeepSeek v4.1 Flash para comprender y mejorar el archivo de movimiento del personaje. Todo lo que ha generado ha sido revisado línea a línea, comentado a mano y ajustado a la necesidad real del juego, eliminando código innecesario o demasiado específico.
+    \item Juan Francisco: DeepSeek Chat para la implementación inicial del movimiento del personaje, contrastando con información de tutoriales de Reddit en r/unity, tomando diferentes trozos de código poco a poco.
+\end{itemize}
+
+\section{Versiones GDD}
 
 \end{document}
 %%% Local Variables: 
