@@ -158,7 +158,6 @@ public class NewTestScript
         estado.position = new Vector2(pixel.x, pixel.y);
 
         InputSystem.QueueStateEvent(raton, estado);
-        InputSystem.Update();
 
         yield return null;
         yield return null;
@@ -340,38 +339,49 @@ public class NewTestScript
     }
 
     [UnityTest]
-    public IEnumerator ShouldFollowHandle()
+    public IEnumerator ShouldMoveObject()
     {
 
+        GameObject camara = new GameObject();
+        Camera cam = camara.AddComponent<Camera>();
+        camara.transform.position = new Vector3(0, 0, -10);
+        camara.tag = "MainCamera";
+
+
+
+        GameObject dragable = new GameObject();
+        DragableObjects2_5D drag = dragable.AddComponent<DragableObjects2_5D>();
+
         GameObject obj = new GameObject();
-        Rigidbody rb = obj.AddComponent<Rigidbody>();
-        obj.transform.position = new Vector3(2,1,0);
 
-        GameObject follow = new GameObject();
-        FollowHandle handle = follow.AddComponent<FollowHandle>();
-        follow.transform.position = new Vector3(0, 0, 0);
-        handle.objetivo = rb;
-        
+        var posInicial = obj.transform.position = new Vector3(0, 0, 0);
+        obj.AddComponent<BoxCollider>();
+        obj.AddComponent<Rigidbody>();
+        obj.tag = "Drag";
 
-        yield return null; //Fotograma para que se incialice
+        yield return null;
 
-        yield return null; //Fotograma para que detecte la tecla
+        Vector3 pixel = cam.WorldToScreenPoint(obj.transform.position);
 
-        float tiempo = 0f;
-        bool sigue = false;
+        var raton = InputSystem.AddDevice<Mouse>();
+        raton.MakeCurrent();
 
-        while (tiempo < 3f)
-        {
-            yield return new WaitForFixedUpdate(); //Fotograma para que se mueva
-            tiempo += Time.fixedDeltaTime;
-            if(obj.transform.position == follow.transform.position)
-            {
-                sigue = true;
-                break;
-            }
-        }
+        var estado = new MouseState().WithButton(MouseButton.Left, true);
+        estado.position = new Vector2(pixel.x, pixel.y);
 
-        Assert.IsTrue(sigue);
+        InputSystem.QueueStateEvent(raton, estado);
+
+        yield return null;
+        yield return null;
+
+        estado.position = new Vector2(pixel.x + 50f, pixel.y);
+        InputSystem.QueueStateEvent(raton, estado);
+
+        yield return new WaitForSeconds(2f);
+
+        InputSystem.RemoveDevice(raton);
+
+        Assert.Greater(obj.transform.position.x, posInicial.x);
 
     }
 
