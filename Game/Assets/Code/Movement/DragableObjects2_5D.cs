@@ -57,12 +57,12 @@ public class DragableObjects2_5D : MonoBehaviour
     // Controla todo el movimiento de los objetos
     void MoveToMouse()
 	{
-		float distance_to_screen = cam.WorldToScreenPoint(transform.position).z;
+		float distance_to_screen = cam.WorldToScreenPoint(rb.position).z;
 		Vector3 pclick = cam.ScreenToWorldPoint( new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance_to_screen));
 		Vector3 direction = pclick - rb.position;
 		float distanceToMouse = new Vector3(direction.x,0,direction.z).magnitude;
 		direction.Normalize();
-		//Debug.Log(rb.linearVelocity.magnitude);
+		Debug.Log(rb.position);
 
 		if(distanceToMouse>=minDistanceToMouse){
 			if(dragForce>=9.81f*rb.mass){
