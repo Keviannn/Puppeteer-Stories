@@ -1,25 +1,29 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem; 
 
 public class Player2_5D : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float maxSpeed = 10f;
-    [SerializeField] private float groundAcceleration = 15f;
-    [SerializeField] private float groundDeceleration = 40f;
-    [SerializeField] private float airAcceleration = 4f;
+    [SerializeField] private float maxSpeed = 6f;
+    [SerializeField] private float groundAcceleration = 17.5f;
+    [SerializeField] private float groundDeceleration = 25f;
+    [SerializeField] private float airAcceleration = 8f;
     [SerializeField] private float airDeceleration = 0f;
 
     [Header("Jump")]
-    [SerializeField] private float jumpSpeed = 9f;
+    [SerializeField] private float jumpSpeed = 7.75f;
     [SerializeField] private float jumpCutMultiplier = 0.5f;
     [SerializeField] private float coyoteTime = 0.15f;
     [SerializeField] private float jumpBufferTime = 0.25f;
 
     [Header("Gravity")]
-    [SerializeField] private float gravity = 9.8f;
-    [SerializeField] private float fallGravityMultiplier = 2.5f;
-    [SerializeField] private float maxFallSpeed = 25f;
+    [SerializeField] private float gravity = 12f;
+    [SerializeField] private float fallGravityMultiplier = 1.5f;
+    [SerializeField] private float maxFallSpeed = 75f;
+    [SerializeField] private float apexThreshold = 2.5f;
+    [SerializeField] private float apexGravityMultiplier = 2f;
+
 
     [Header("Ground")]
     [SerializeField] private float groundedGraceTime = 0.05f;
@@ -102,8 +106,8 @@ public class Player2_5D : MonoBehaviour
     {
         foreach (ContactPoint contact in collision.contacts)
         {
-            // Check for a mostly vertical normal (likely a floor)
-            if (contact.normal.y > 0.5f)
+            // Check for a mostly vertical normal (likely a floor) and if it does not have vertical velocity
+            if (contact.normal.y > 0.5f && rb.linearVelocity.y <= 0.01f)
             {
                 groundedTimer = groundedGraceTime;
                 return;
@@ -170,9 +174,11 @@ public class Player2_5D : MonoBehaviour
 
     private void ApplyGravity()
     {
-        // More gravity falling, less jumping
-        if (rb.linearVelocity.y < 0f)
-            rb.AddForce(Vector3.up * -gravity * (fallGravityMultiplier - 1f), ForceMode.Acceleration);
+        // More gravity at the highest point of the jump, a bit more falling and less jumping
+        if (Math.Abs(rb.linearVelocity.y) < apexThreshold && !isGrounded)
+            rb.AddForce(Vector3.up * -gravity * apexGravityMultiplier, ForceMode.Acceleration);
+        else if (rb.linearVelocity.y < 0f)
+            rb.AddForce(Vector3.up * -gravity * fallGravityMultiplier, ForceMode.Acceleration);
         else
             rb.AddForce(Vector3.up * -gravity, ForceMode.Acceleration);
 
