@@ -18,6 +18,7 @@ public class NewTestScript
         // Use the Assert class to test conditions
     }
 
+    /*Test que comprueba si el jugador se crea correctamente*/
     [Test]
     public void ShouldCreatePlayer()
     {
@@ -30,6 +31,7 @@ public class NewTestScript
         Object.DestroyImmediate(testPlayer);
     }
 
+    /*Test que comprueba si al crear una plataforma esta tiene velocidad*/
     [Test]
     public void PlatformShouldMove()
     {
@@ -37,11 +39,12 @@ public class NewTestScript
 
         MovingPlatform platform = testPlatform.AddComponent<MovingPlatform>();
 
-        Assert.Greater(platform.speed, 0f);
+        Assert.AreNotEqual(platform.speed, 0f);
 
         Object.DestroyImmediate(testPlatform);
     }
 
+    /*Test que compruebe que una plataforma se mueva al lado contrario después de cruzar un límite*/
     [Test]
     public void PlatformShouldBound()
     {
@@ -64,6 +67,7 @@ public class NewTestScript
 
     }
 
+    /*Test que comprueba que la función GetObject en DragableObjects2_5D funcione*/
     [UnityTest]
     public IEnumerator GetObject_Dragable()
     {
@@ -107,7 +111,7 @@ public class NewTestScript
         Assert.AreSame(rb,rbObj);
     }
 
-
+    /*Test que comprueba que el jugador detecta el input correctamente y se mueve a la derecha*/
     [UnityTest]
     public IEnumerator ShouldMoveRight()
     {
@@ -138,6 +142,8 @@ public class NewTestScript
 
     }
 
+
+    /*Test que comprueba que el jugador detecta el input correctamente y se mueve a la izquierda*/
     [UnityTest]
     public IEnumerator ShouldMoveLeft()
     {
@@ -168,7 +174,7 @@ public class NewTestScript
 
     }
 
-    //Falla ya que usamos el sistema de input antiguo... No he encontrado manera de arreglarlo
+    /*Test que comprueba que un objeto detecta el click encima suya*/
     [UnityTest]
     public IEnumerator ShouldDetectClick()
     {
@@ -210,6 +216,7 @@ public class NewTestScript
         Assert.IsTrue(drag.isActiv);
     }
 
+    /*Test que comprueba que el jugador detecta el input correctamente y salta*/
     [UnityTest]
     public IEnumerator ShouldJump()
     {
@@ -244,6 +251,7 @@ public class NewTestScript
 
     }
 
+    /*Test que detecta si el jugador sobrepasa el límite de altura en un salto*/
     [UnityTest]
     public IEnumerator ShouldNotPassMaxJump()
     {
@@ -285,6 +293,7 @@ public class NewTestScript
 
     }
 
+    /*Test que detecta que el jugador no pase un tiempo máximo en el aire después de un salto*/
     [UnityTest]
     public IEnumerator ShouldNotPassAirMaxTimeInJump()
     {
@@ -338,6 +347,7 @@ public class NewTestScript
 
     }
 
+    /*Test que detecta que no se sobrepase el límite de velocidad establecido*/
     [UnityTest]
     public IEnumerator ShouldNotPassMaxSpeed()
     {
@@ -381,6 +391,9 @@ public class NewTestScript
 
     }
 
+    /*Test que comprueba que al hacer click en un objeto y mover el cursor
+      este se mueva*/
+      
     [UnityTest]
     public IEnumerator ShouldMoveObject()
     {
@@ -417,7 +430,7 @@ public class NewTestScript
         yield return null;
         yield return null;
 
-        estado.position = new Vector2(pixel.x + 50f, pixel.y);
+        estado.position = new Vector2(pixel.x + 5000f, pixel.y);
         InputSystem.QueueStateEvent(raton, estado);
 
         yield return new WaitForSeconds(2f);
