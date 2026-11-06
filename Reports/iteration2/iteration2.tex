@@ -86,22 +86,23 @@ Mover al personaje con el teclado y mover elementos del entorno con el ratón pa
 \item \textbf{Team Lead:} Encargado de coordinar la planificación, establece fechas, asigna tareas, supervisa el proyecto y toma la decisión final en caso de duda o conflicto.
 \item \textbf{Designer:} Encargado de diseñar las mecánicas, niveles, y escenarios.
 \item \textbf{Developer:} Encargado de programar y hacer que funcione lo diseñado por los Designer.
-\item \textbf{QA:} Encargado de probar el producto en busca de fallos ya sean de código, experiencia, calidad,etc.
+\item \textbf{QA:} Encargado de probar el producto en busca de fallos ya sean de código, experiencia, calidad,etc. Además de hacer UnitTest.
 \item \textbf{Document Controller:} Organiza y mantiene actualizada toda la documentación.
 \end{itemize}
 
 \begin{itemize}
-    \item Jose Luis Prado: Team Lead y Designer
+    \item Jose Luis Prado: Team Lead, Developer y QA
     \item Juan Francisco Aranda: Developer y Designer
     \item Javier Sánchez: Developer y Designer
-    \item David Sobrino: QA y Designer
+    \item David Sobrino: QA y Developer
     \item David Sierra: Document Controller y QA
     \item Fernando Santana: Developer y Document Controller
 \end{itemize}
 
 \subsection{Kanban}
 
-\includegraphics[width=0.9\textwidth]{../figures/kanban}\\[1.5cm] 
+\includegraphics[width=0.9\textwidth]{../figures/kanban2}\\[1.5cm] 
+
 
 \section{Quality Assessment}
 
@@ -143,9 +144,20 @@ Mover al personaje con el teclado y mover elementos del entorno con el ratón pa
 \begin{itemize}
     \item Jose Luis: DeepSeek v4.1 Flash para comprender y mejorar el archivo de movimiento del personaje. Todo lo que ha generado ha sido revisado línea a línea, comentado a mano y ajustado a la necesidad real del juego, eliminando código innecesario o demasiado específico.
     \item Juan Francisco: DeepSeek Chat para la implementación inicial del movimiento del personaje, contrastando con información de tutoriales de Reddit en r/unity, tomando diferentes trozos de código poco a poco.
+     \item David Sobrino: En el script fusion para arreglar problemas de que los joint. Se hacian lejos del objeto con el cual se tenia que hacer joint.
+     \item Fernando: En los scripts DragDrawers.cs y FollowHandle.cs. También para establecer los limites de movimiento del jugador y para que el jugador conserve el movimiento en el salto si no se hace ningun input.
+     \item David Sierra: Gemini, En los test en busca del problema sobre porqué no se detectaban los input al ejecutarlos.
+
 \end{itemize}
 
 \section{Versiones GDD}
+\begin{itemize}
+    \item iteration1.pdf: Versión 1 del GDD. Contiene: Propuesta e historia, género y referencias, jugadores objetivo, motivadores, mecánica principal, storyboard, y organización (roles y kanban). 
+    \item iteration2.pdf: Versión 2 del GDD. Se mejoran los apartados de jugadores objetivos y mecánica principal. Se añade: Quality Assessment, Documentación de Scripts y Repositorio (Scripts y Estructura del proyecto), Documentación de IA Generativa, y Versiones GDD
+     
+
+\end{itemize}
+
 
 \end{document}
 %%% Local Variables: 
