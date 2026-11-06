@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/*
+ * Script encargado de que los drawers sigan a sus handles
+ */
 public class FollowHandle : MonoBehaviour
 {
     Rigidbody rb;

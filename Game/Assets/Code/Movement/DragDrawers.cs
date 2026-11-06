@@ -7,9 +7,9 @@ public class DragDrawers : MonoBehaviour
     [Range(0.5f, 1.5f)]
     public float dampingRatio = 1f;      // 1 = sin rebote; <1 rebota un poco
     public float maxForce = 200f;        // límite de fuerza (evita empujones violentos)
-    public float maxSpeed = 0.5f;      // límite de velocidad
-    public float recorridoNegativo = 0f;   
-    public float recorridoPositivo = 2.1f;   
+    public float maxSpeed = 0.5f;        // límite de velocidad
+    public float recorridoNegativo = 0f;
+    public float recorridoPositivo = 2.1f;
     float minX, maxX;
 
 
@@ -34,7 +34,7 @@ public class DragDrawers : MonoBehaviour
     {
         if (!active)
             rb = GetObject();
-
+	// Deteccion del raton
         if (rb != null && Input.GetMouseButton(0))
         {
             if (!active)
@@ -53,6 +53,7 @@ public class DragDrawers : MonoBehaviour
             }
             time = inputBuffer;
         }
+	// Implementa buffer para el arrastre de raton
         else if (time >= 0 && active)
         {
             time -= Time.deltaTime;
@@ -74,6 +75,7 @@ public class DragDrawers : MonoBehaviour
             MoveToMouse();
     }
 
+    // Funcion que mueve el objeto al raton
     void MoveToMouse()
     {
         Vector3 mouse = Input.mousePosition;
@@ -90,7 +92,8 @@ public class DragDrawers : MonoBehaviour
         // Límite de velocidad
         if (rb.linearVelocity.magnitude > maxSpeed)
             rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
-
+	
+	// Limite de posicion
         Vector3 pos = rb.position;
         if (pos.x < minX || pos.x > maxX)
         {
@@ -103,6 +106,7 @@ public class DragDrawers : MonoBehaviour
     
     }
 
+    // Devuelve el RigidBody al que apunta el raton
     Rigidbody GetObject()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);

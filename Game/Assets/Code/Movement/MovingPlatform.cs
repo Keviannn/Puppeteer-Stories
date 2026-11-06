@@ -4,13 +4,12 @@ public class MovingPlatform : MonoBehaviour
 {
     public float speed = 1f;
     Vector3 targetVector = Vector3.back;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
-        
     }
 
-    // Update is called once per frame
+    // Mueve la plataforma de un lado a otro
     void Update()
     {
 	transform.Translate(targetVector*speed);
