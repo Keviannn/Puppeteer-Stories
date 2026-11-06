@@ -106,6 +106,27 @@ Mover al personaje con el teclado y mover elementos del entorno con el ratón pa
 
 \section{Quality Assessment}
 
+Con el objetivo de comprobar el correcto funcionamiento de los srcipts, se han implementado los siguientes test:
+
+\begin{itemize}
+    \item ShouldCreatePlayer(): Detecta si el jugador ha sido creado correctamente.
+    \item PlatformShouldMove(): Detecta si una plataforma si inicia con velocidad
+    \item PlatformShouldBound():  Detecta si una plataforma cambia su dirección al llegar a un límite
+    \item GetObject\_Dragable(): Comprueba que la función GetObject en DragableObjects2\_5D funcione
+    \item ShouldMoveRight(): Comprueba que el jugador detecta el input correctamente y se mueve a la derecha
+    \item ShouldMoveLeft(): Comprueba que el jugador detecta el input correctamente y se mueve a la izquierda
+    \item ShouldDetectClick(): Comprueba que un objeto detecta el click encima suya
+    \item ShouldJump(): Comprueba que el jugador detecta el input correctamente y salta
+    \item ShouldNotPassMaxJump(): Detecta si el jugador sobrepasa el límite de altura en un salto
+    \item ShouldNotPassAirMaxTimeInJump(): Detecta que el jugador no pase un tiempo máximo en el aire después de un salto
+    \item ShouldNotPassMaxSpeed(): Detecta que no se sobrepase el límite de velocidad establecido
+    \item ShouldMoveObject(): Comprueba que al hacer click en un objeto y mover el cursor este se mueva
+\end{itemize}
+
+Todos los test han pasado todos correctamente.
+
+El equipo de calidad ha encontrado algunos bugs durante el desarrollo de esta iteración. Entre ellos pueden estar uno en el que el jugador se quedaba pegado a la pared, uno en el que el jugador atravesaba ciertos objetos, y otro en el que al rotar un objeto 180º dejaba de funcionar correctamente. Todos estos bugs han sido corregidos antes de la entrega. También, se han señalado posibles mejoras, como la del movimiento que aun no se siente del todo cómodo o el arrastrar objetos se siente demasiado pesado.
+
 \section{Documentación de Scripts y Repositorio}
 \textbf{Scripts:}
 \begin{itemize}

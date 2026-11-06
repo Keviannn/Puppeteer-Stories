@@ -35,7 +35,7 @@ public class Player2_5D : MonoBehaviour
     private CapsuleCollider capsule;
 
     private float inputX;
-    private bool isGrounded;
+    public bool isGrounded;
 
     private float groundedTimer;
     private float coyoteTimer;
