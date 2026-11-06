@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem; 
 using System.Collections;
+using UnityEngine.InputSystem.LowLevel;
 
 /*
  * Este script solo debería estar una vez por escena, puede estar en cualquier objeto
@@ -18,7 +19,7 @@ public class DragableObjects2_5D : MonoBehaviour
 
     float time;
     Camera cam; // Camara usada para calcular pos del mouse
-    bool active = false; // true si se esta arrastrando algo 
+    public bool isActiv = false; // true si se esta arrastrando algo 
     Rigidbody rb;
 
     void Start()
@@ -31,25 +32,25 @@ public class DragableObjects2_5D : MonoBehaviour
 
     void Update()
     {
-	if(active == false){
+	if(isActiv == false){
 		rb = GetObject();
 	}
-        if(rb != null && Input.GetMouseButton(0)){
-		if(!active){
-			active = true;
+        if(rb != null && Mouse.current.leftButton.isPressed){
+		if(!isActiv){
+			isActiv = true;
 		}
 		time = inputBuffer;
 	} //estas funciones están solo para que puedas seguir arrastrando aunque no todos los frames te detecte el click
-	  else if(time >= 0 && active){
+	  else if(time >= 0 && isActiv){
 		time = time - Time.deltaTime;
-	} else if (active) {
-		active = false;
+	} else if (isActiv) {
+		isActiv = false;
 		rb = null;
 	}
     }
 
     void FixedUpdate(){
-	if(active){
+	if(isActiv){
 		MoveToMouse();
 	}
     }
@@ -57,8 +58,10 @@ public class DragableObjects2_5D : MonoBehaviour
     // Controla todo el movimiento de los objetos
     void MoveToMouse()
 	{
+		var mousePosition = Mouse.current.position.ReadValue();
+
 		float distance_to_screen = cam.WorldToScreenPoint(rb.position).z;
-		Vector3 pclick = cam.ScreenToWorldPoint( new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance_to_screen));
+		Vector3 pclick = cam.ScreenToWorldPoint( new Vector3(mousePosition.x, mousePosition.y, distance_to_screen));
 		Vector3 direction = pclick - rb.position;
 		float distanceToMouse = new Vector3(direction.x,0,direction.z).magnitude;
 		direction.Normalize();
@@ -81,7 +84,7 @@ public class DragableObjects2_5D : MonoBehaviour
 	}
     // Devuelve el rigidbody del objeto que tiene encima el raton
     Rigidbody GetObject(){
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
